@@ -34,3 +34,8 @@ Test 에서는 반드시 multi thread 요청으로 SoldOutException 이 정상 �
 하지만 상품에 대한 상품번호, 상품명, 판매가격, 재고수량 데이터는 그대로 사용하셔야 합니다.
 
 상품 데이터 csv 파일을 같이 제공합니다.
+
+
+-----
+
+https://hongku.tistory.com/15
