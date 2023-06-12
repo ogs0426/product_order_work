@@ -28,16 +28,15 @@ public class OrderController {
             switch (optParam) {
 
                 case ORDER -> {
+                    // Step 1. 주문
                     OrderService orderService = new OrderService(sc);
+
                     Map<Integer, Integer> cart = orderService.getOrderCartList();
 
+                    // Step 2. 구매
                     PayService payService = new PayService();
 
-                    if( payService.buyCart(cart) ) {
-                        System.out.println("고객님 구매 성공합니다.");
-                    } else {
-                        System.out.println("고객님 구매 실패합니다.");
-                    }
+                    Boolean checkPay = payService.buyCart(cart);
                 }
 
                 case QUIT -> {
