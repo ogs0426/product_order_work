@@ -9,7 +9,7 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepsitory productRepsitory = ProductRepsitory.getInstance();
-    
+
     public void initReadProduct() {
         List<List<String>> readCSV = CSVReader.readCSV("src/main/resources/product.csv");
 
