@@ -7,16 +7,16 @@ import java.util.Objects;
 
 @Getter
 @RequiredArgsConstructor
-public enum MainParamType {
+public enum MainRouterType {
     ORDER   ("o","product order"),
     QUIT    ("q","quit p");
 
     private final String code;
     private final String message;
 
-    public static MainParamType from(String value) {
+    public static MainRouterType from(String value) {
 
-        for (MainParamType item : MainParamType.values()) {
+        for (MainRouterType item : MainRouterType.values()) {
             if(Objects.equals(item.getCode(), value))
                 return item;
         }

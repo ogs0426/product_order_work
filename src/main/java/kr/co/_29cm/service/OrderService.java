@@ -4,7 +4,6 @@ import kr.co._29cm.model.Product;
 import kr.co._29cm.repository.ProductRepsitory;
 import lombok.RequiredArgsConstructor;
 
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -13,9 +12,9 @@ import java.util.Scanner;
 public class OrderService {
 
     private final Scanner sc;
-    private final ProductRepsitory productRepsitory;
+    private final ProductRepsitory productRepsitory = ProductRepsitory.getInstance();
 
-    public Map<Integer, Integer> runOrder() {
+    public Map<Integer, Integer> getOrderCartList() {
 
         // Step0. 상품 출력
         showProductsList();
@@ -70,7 +69,7 @@ public class OrderService {
         }
     }
 
-    public String amountComma(int amount) {
+    private String amountComma(int amount) {
         return String.valueOf(amount).replaceAll("\\B(?=(\\d{3})+(?!\\d))", ",");
     }
 
