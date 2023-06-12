@@ -1,8 +1,8 @@
 package kr.co._29cm.controller;
 
 import kr.co._29cm.enums.MainRouterType;
-import kr.co._29cm.repository.ProductRepsitory;
 import kr.co._29cm.service.OrderService;
+import kr.co._29cm.service.PayService;
 import kr.co._29cm.service.ProductService;
 
 import java.util.Map;
@@ -31,8 +31,15 @@ public class OrderController {
                     OrderService orderService = new OrderService(sc);
                     Map<Integer, Integer> cart = orderService.getOrderCartList();
 
-                    // PayService payService = new PayService(sc);
+                    PayService payService = new PayService();
+
+                    if( payService.buyCart(cart) ) {
+                        System.out.println("고객님 구매 성공합니다.");
+                    } else {
+                        System.out.println("고객님 구매 실패합니다.");
+                    }
                 }
+
                 case QUIT -> {
                     System.out.println("고객님의 주문 감사합니다.");
 
