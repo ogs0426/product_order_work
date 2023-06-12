@@ -39,12 +39,13 @@ public class OrderService {
                 // Step2-1. 카트 주문
                 if (itemCount == -1) {
                     System.out.println("주문이 취소 되었습니다.");
+                } else {
+                    if (cart.containsKey(itemProduct))
+                        itemCount += cart.get(itemProduct);
+
+                    cart.put(itemProduct, itemCount);
                 }
 
-                if (cart.containsKey(itemProduct))
-                    itemCount += cart.get(itemProduct);
-
-                cart.put(itemProduct, itemCount);
 
             } catch (Exception e) {
                 return null;
