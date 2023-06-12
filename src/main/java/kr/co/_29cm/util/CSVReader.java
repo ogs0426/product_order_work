@@ -15,8 +15,10 @@ public class CSVReader {
             br = new BufferedReader(new FileReader(csv));
             while ((line = br.readLine()) != null) {
                 List<String> aLine = new ArrayList<String>();
-                String[] lineArr = line.split(",");
+                String[] lineArr = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)",-1);;
+
                 aLine = Arrays.asList(lineArr);
+
                 csvList.add(aLine);
             }
         } catch (IOException e) {

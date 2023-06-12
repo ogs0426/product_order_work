@@ -3,8 +3,7 @@ package kr.co._29cm.repository;
 import kr.co._29cm.model.Product;
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RequiredArgsConstructor
 public class ProductRepsitory {
@@ -15,13 +14,16 @@ public class ProductRepsitory {
         return ProductList.get(id);
     }
 
-    public Product insertItem(Product product) {
-        return ProductList.put(product.getId(), product);
+    public List<Product> findAll() {
+        return new ArrayList<Product>(ProductList.values());
+    }
+
+    public void insertItem(Product product) {
+        ProductList.put(product.getId(), product);
     }
 
     public Product deleteItem(Integer id) {
         return ProductList.remove(id);
     }
-
 
 }

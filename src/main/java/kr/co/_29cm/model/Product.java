@@ -13,9 +13,9 @@ public class Product {
     private Integer stock;
 
     public Product(List<String> list) {
-        this.id = Integer.valueOf(list.get(1));
-        this.name = list.get(2);
-        this.price = Integer.valueOf(list.get(3));
-        this.stock = Integer.valueOf(list.get(4));
+        this.id = Integer.valueOf(list.get(0));
+        this.name = list.get(1);
+        this.price = Integer.valueOf(list.get(2));
+        this.stock = Integer.valueOf(list.get(3));
     }
 }

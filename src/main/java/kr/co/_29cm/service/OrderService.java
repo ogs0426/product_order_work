@@ -1,7 +1,10 @@
 package kr.co._29cm.service;
 
+import kr.co._29cm.model.Product;
+import kr.co._29cm.repository.ProductRepsitory;
 import lombok.RequiredArgsConstructor;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -10,6 +13,7 @@ import java.util.Scanner;
 public class OrderService {
 
     private final Scanner sc;
+    private final ProductRepsitory productRepsitory;
 
     public Map<Integer, Integer> runOrder() {
 
@@ -30,22 +34,33 @@ public class OrderService {
                     // 해당 시점에서 수량 트랜젹션을 확인 하여 (뮤텍스 처럼 동작 하여야함)
                     // 수량을 계산하여 처리
                     showCartList(cart);
+                    
+                    // 이후 결재 엑션
+                    
                     return cart;
-                }
-
-                // Step2. 주문
-                Integer itemCount = parseIntUserScan(OUT_COUNT, 5);
-
-                // Step2-1. 카트 주문
-                if (itemCount == -1) {
-                    System.out.println("주문이 취소 되었습니다.");
                 } else {
-                    if (cart.containsKey(itemProduct))
-                        itemCount += cart.get(itemProduct);
+                    Product choice = productRepsitory.findById(itemProduct);
 
-                    cart.put(itemProduct, itemCount);
+                    if(choice == null) {
+                        System.out.println("존재 하지 않는 상품 입니다.");
+                    } else {
+
+                        // Step2. 주문
+                        Integer itemCount = parseIntUserScan(OUT_COUNT, 5);
+
+                        // Step2-1. 카트 주문
+                        if (itemCount == -1) {
+                            System.out.println("주문이 취소 되었습니다.");
+                        } else {
+                            if (cart.containsKey(itemProduct))
+                                itemCount += cart.get(itemProduct);
+
+                            cart.put(itemProduct, itemCount);
+                        }
+
+                    }
+
                 }
-
 
             } catch (Exception e) {
                 return null;
@@ -55,17 +70,41 @@ public class OrderService {
         }
     }
 
+    public String amountComma(int amount) {
+        return String.valueOf(amount).replaceAll("\\B(?=(\\d{3})+(?!\\d))", ",");
+    }
+
     private void showCartList(Map<Integer, Integer> cart) {
         System.out.println("주문 내역 :");
         System.out.println("-------");
 
+        int amount = 0;
+
         for (Integer selectKey : cart.keySet()) {
-            System.out.printf("%s, %s%n", selectKey, cart.get(selectKey));
+            Product item = productRepsitory.findById(selectKey);
+            System.out.printf("%s - %d 개 %n", item.getName(), cart.get(selectKey));
+
+            amount += (item.getPrice() * cart.get(selectKey));
         }
+
+        System.out.println("-------");
+        System.out.printf("주문 금액: %s 원 %n", amountComma(amount));
+
+        if(amount < 50000) {
+            System.out.printf("배송비: 2,500 원 %n");
+            amount += 2500;
+        }
+
+        System.out.println("-------");
+        System.out.printf("지불 금액: %s 원 %n", amountComma(amount));
     }
 
     private void showProductsList() {
-        System.out.println("상품 리스트 대강 123444 ");
+        System.out.println("상품번호    상품명 판매가격    재고수량");
+
+        for (Product item : productRepsitory.findAll()) {
+            System.out.printf("%d   %s  %d  %d %n", item.getId(), item.getName(), item.getPrice(), item.getStock());
+        }
     }
 
     /*
