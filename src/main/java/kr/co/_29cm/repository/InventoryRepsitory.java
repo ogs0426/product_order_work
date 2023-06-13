@@ -38,8 +38,8 @@ public class InventoryRepsitory {
         ProductStorage.put(inventory.getProduct().getId(), inventory);
     }
 
-    public Inventory updateStock(Product item, Integer stock) {
-        return ProductStorage.put(item.getId(), new Inventory(item, stock));
+    public void updateStock(Product item, Integer stock) {
+        ProductStorage.put(item.getId(), new Inventory(item, stock));
     }
 
     public Inventory deleteItem(Integer id) {

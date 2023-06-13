@@ -23,5 +23,11 @@ public class Application {
     // 단위 테스트 작성 (멀티 스레드 엑션이 가능하여야 함)
 
     // https://books.spotvnow.co.kr/bookstack/books/spotv-service-next-generation/page/f770b 해당 상태 구현 주문 구매 라이프 사이클
+    
+    // -------------
+    
+    // PayService 에 대한 동시성 확인
+
+    // 초기화 설정에 대한 Test
 
 }

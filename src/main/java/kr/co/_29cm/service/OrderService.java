@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class OrderService {
 
     private final Scanner sc;
-    private final InventoryRepsitory productRepsitory = InventoryRepsitory.getInstance();
+    private final InventoryRepsitory inventoryRepsitory = InventoryRepsitory.getInstance();
 
     public Map<Product, Integer> getOrderCartList() {
 
@@ -34,13 +34,13 @@ public class OrderService {
                     // Step1-2. 결제 (공백 일 경우)
                     // 해당 시점에서 수량 트랜젹션을 확인 하여 (뮤텍스 처럼 동작 하여야함)
                     // 수량을 계산하여 처리
-                    showCartList(productCart);
-                    
+                    // showCartList(productCart);
+
                     // 이후 결재 엑션
-                    
+
                     return productCart;
                 } else {
-                    Product choice = productRepsitory.findProductById(itemProduct);
+                    Product choice = inventoryRepsitory.findProductById(itemProduct);
 
                     if(choice == null) {
                         System.out.println("존재 하지 않는 상품 입니다.");
@@ -75,40 +75,6 @@ public class OrderService {
         return String.valueOf(amount).replaceAll("\\B(?=(\\d{3})+(?!\\d))", ",");
     }
 
-    private void showCartList(Map<Product, Integer> cart) {
-        System.out.println("-------");
-        System.out.println("주문 내역 :");
-        System.out.println("-------");
-
-        int amount = 0;
-
-        for (Product item : cart.keySet()) {
-            System.out.printf("%s - %d 개 %n", item.getName(), cart.get(item));
-
-            amount += (item.getPrice() * cart.get(item));
-        }
-
-        System.out.println("-------");
-        System.out.printf("주문 금액: %s 원 %n", amountComma(amount));
-
-        if(amount < 50000) {
-            System.out.printf("배송비: 2,500 원 %n");
-            amount += 2500;
-        }
-
-        System.out.println("-------");
-        System.out.printf("지불 금액: %s 원 %n", amountComma(amount));
-    }
-
-    private void showProductsList() {
-        System.out.println("상품번호    상품명 판매가격    재고수량");
-
-        for (Inventory inven : productRepsitory.findAll()) {
-            Product item = inven.getProduct();
-            System.out.printf("%d   %s  %d  %d %n", item.getId(), item.getName(), item.getPrice(), inven.getStock());
-        }
-    }
-
     /*
      * 1. 입력 된 값에 대하여 숫자일 경우 parse
      * 2. 입력 값이 ""일 경우 -1
@@ -141,4 +107,12 @@ public class OrderService {
         return itemNumberToInt;
     }
 
+    private void showProductsList() {
+        System.out.println("상품번호    상품명 판매가격    재고수량");
+
+        for (Inventory inven : inventoryRepsitory.findAll()) {
+            Product item = inven.getProduct();
+            System.out.printf("%d   %s  %d  %d %n", item.getId(), item.getName(), item.getPrice(), inven.getStock());
+        }
+    }
 }

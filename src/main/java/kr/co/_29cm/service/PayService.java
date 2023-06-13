@@ -8,17 +8,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PayService {
+    private static final PayService payService = new PayService();
 
-    private final InventoryRepsitory productRepsitory = InventoryRepsitory.getInstance();
+    public static PayService getInstance() {
+        return payService;
+    }
+
+    private final InventoryRepsitory inventoryRepsitory = InventoryRepsitory.getInstance();
 
     public synchronized Boolean buyCart(Map<Product, Integer> cart) throws SoldOutException {
 
         Map<Product, Integer> buyCart = new HashMap<Product, Integer>(cart);
 
+        // Step 0. 존재 여부 확인
+
         // Step 1. 재고 확인
         for (Product item : cart.keySet()) {
             Integer count = cart.get(item);
-            Integer stock = productRepsitory.findById(item.getId()).getStock();
+            Integer stock = inventoryRepsitory.findById(item.getId()).getStock();
 
             if(count > stock)
                 throw new SoldOutException(item);
@@ -28,7 +35,7 @@ public class PayService {
 
         // Step 2. 실 구매
         for (Product item : buyCart.keySet()) {
-            productRepsitory.updateStock(item, buyCart.get(item));
+            inventoryRepsitory.updateStock(item, buyCart.get(item));
         }
 
         return Boolean.TRUE;

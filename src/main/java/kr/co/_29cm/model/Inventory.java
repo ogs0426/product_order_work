@@ -10,7 +10,7 @@ public class Inventory {
     private Integer stock;
 
     public Inventory(List<String> list) {
-
+        
         this.product = Product.builder()
                 .id(Integer.valueOf(list.get(0)))
                 .name(list.get(1))

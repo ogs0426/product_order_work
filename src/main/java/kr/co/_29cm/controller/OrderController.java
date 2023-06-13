@@ -12,10 +12,15 @@ import java.util.Scanner;
 
 public class OrderController {
 
-    public static void runOrder() {
+    public static void InventoryStorageStack() {
         ProductService productService = new ProductService();
         productService.initReadProduct();
+    }
 
+    public static void runOrder() {
+        InventoryStorageStack();
+
+        PayService payService = PayService.getInstance();
         Scanner sc = new Scanner(System.in);
 
         while (true) {
@@ -35,10 +40,39 @@ public class OrderController {
                     Map<Product, Integer> cart = orderService.getOrderCartList();
 
                     // Step 2. 구매
-                    PayService payService = new PayService();
 
                     try {
                         Boolean checkPay = payService.buyCart(cart);
+
+                        if(checkPay) {
+
+                            // SHOW
+                            private void showCartList(Map<Product, Integer> cart) {
+                                System.out.println("-------");
+                                System.out.println("주문 내역 :");
+                                System.out.println("-------");
+
+                                int amount = 0;
+
+                                for (Product item : cart.keySet()) {
+                                    System.out.printf("%s - %d 개 %n", item.getName(), cart.get(item));
+
+                                    amount += (item.getPrice() * cart.get(item));
+                                }
+
+                                System.out.println("-------");
+                                System.out.printf("주문 금액: %s 원 %n", amountComma(amount));
+
+                                if(amount < 50000) {
+                                    System.out.printf("배송비: 2,500 원 %n");
+                                    amount += 2500;
+                                }
+
+                                System.out.println("-------");
+                                System.out.printf("지불 금액: %s 원 %n", amountComma(amount));
+                            }
+                        }
+
                         System.out.println("");
 
                     } catch (SoldOutException e) {
