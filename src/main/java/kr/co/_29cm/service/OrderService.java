@@ -53,8 +53,10 @@ public class OrderService {
                         if (itemCount == -1) {
                             System.out.println("주문이 취소 되었습니다.");
                         } else {
+                            /*
                             if (productCart.containsKey(choice))
                                 itemCount += productCart.get(choice);
+                             */
 
                             productCart.put(choice, itemCount);
                         }

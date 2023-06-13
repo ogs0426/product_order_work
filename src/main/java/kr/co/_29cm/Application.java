@@ -26,8 +26,11 @@ public class Application {
     
     // -------------
     
-    // PayService 에 대한 동시성 확인
+    // PayService 멀티스레드 Test
 
-    // 초기화 설정에 대한 Test
+    // Unit Test 작성
 
+    // MVC 분리 View 영역은 모두 Controller로 분리 할것
+    
+    // Contreoll 영역에 분기 및 기능만을 탑재
 }

@@ -44,33 +44,8 @@ public class OrderController {
                     try {
                         Boolean checkPay = payService.buyCart(cart);
 
-                        if(checkPay) {
-
-                            // SHOW
-                            private void showCartList(Map<Product, Integer> cart) {
-                                System.out.println("-------");
-                                System.out.println("주문 내역 :");
-                                System.out.println("-------");
-
-                                int amount = 0;
-
-                                for (Product item : cart.keySet()) {
-                                    System.out.printf("%s - %d 개 %n", item.getName(), cart.get(item));
-
-                                    amount += (item.getPrice() * cart.get(item));
-                                }
-
-                                System.out.println("-------");
-                                System.out.printf("주문 금액: %s 원 %n", amountComma(amount));
-
-                                if(amount < 50000) {
-                                    System.out.printf("배송비: 2,500 원 %n");
-                                    amount += 2500;
-                                }
-
-                                System.out.println("-------");
-                                System.out.printf("지불 금액: %s 원 %n", amountComma(amount));
-                            }
+                        if (checkPay) {
+                            showCartList(cart);
                         }
 
                         System.out.println("");
@@ -98,4 +73,35 @@ public class OrderController {
         }
 
     }
+
+    // SHOW
+    private static void showCartList(Map<Product, Integer> cart) {
+        System.out.println("-------");
+        System.out.println("주문 내역 :");
+        System.out.println("-------");
+
+        int amount = 0;
+
+        for (Product item : cart.keySet()) {
+            System.out.printf("%s - %d 개 %n", item.getName(), cart.get(item));
+
+            amount += (item.getPrice() * cart.get(item));
+        }
+
+        System.out.println("-------");
+        System.out.printf("주문 금액: %s 원 %n", amountComma(amount));
+
+        if(amount < 50000) {
+            System.out.printf("배송비: 2,500 원 %n");
+            amount += 2500;
+        }
+
+        System.out.println("-------");
+        System.out.printf("지불 금액: %s 원 %n", amountComma(amount));
+    }
+
+    private static String amountComma(int amount) {
+        return String.valueOf(amount).replaceAll("\\B(?=(\\d{3})+(?!\\d))", ",");
+    }
+
 }
