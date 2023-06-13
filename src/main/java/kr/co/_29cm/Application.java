@@ -33,4 +33,6 @@ public class Application {
     // MVC 분리 View 영역은 모두 Controller로 분리 할것
     
     // Contreoll 영역에 분기 및 기능만을 탑재
+
+    // test 가능한 단위로 기능 메소드 분리
 }
