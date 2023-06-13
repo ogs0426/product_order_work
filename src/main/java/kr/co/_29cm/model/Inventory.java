@@ -19,4 +19,9 @@ public class Inventory {
 
         this.stock = Integer.valueOf(list.get(3));
     }
+
+    public Inventory(Product product, Integer stock) {
+        this.product = product;
+        this.stock = stock;
+    }
 }

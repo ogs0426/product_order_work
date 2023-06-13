@@ -14,15 +14,15 @@ public class InventoryRepsitory {
         return inventoryRepsitory;
     }
 
-    private final Map<Integer, Inventory> ProductList = new HashMap<>();
-    private final Map<Integer, Inventory> Locking = new HashMap<>();
+    private final Map<Integer, Inventory> ProductStorage = new HashMap<>();
+    // private final Map<Integer, Inventory> Locking = new HashMap<>();
 
     public Inventory findById(Integer id) {
-        return ProductList.get(id);
+        return ProductStorage.get(id);
     }
 
     public Product findProductById(Integer id) {
-        Inventory inventory =  ProductList.get(id);
+        Inventory inventory =  ProductStorage.get(id);
 
         if(inventory == null)
             return null;
@@ -31,15 +31,19 @@ public class InventoryRepsitory {
     }
 
     public List<Inventory> findAll() {
-        return new ArrayList<Inventory>(ProductList.values());
+        return new ArrayList<Inventory>(ProductStorage.values());
     }
 
     public void insertItem(Inventory inventory) {
-        ProductList.put(inventory.getProduct().getId(), inventory);
+        ProductStorage.put(inventory.getProduct().getId(), inventory);
+    }
+
+    public Inventory updateStock(Product item, Integer stock) {
+        return ProductStorage.put(item.getId(), new Inventory(item, stock));
     }
 
     public Inventory deleteItem(Integer id) {
-        return ProductList.remove(id);
+        return ProductStorage.remove(id);
     }
 
     // 구매 API 필요 트랜젹션을 통해서 관리 되어야 한다.(mutex) id 별로 관리 되어야 한다.
