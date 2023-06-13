@@ -1,7 +1,8 @@
 package kr.co._29cm.service;
 
+import kr.co._29cm.model.Inventory;
 import kr.co._29cm.model.Product;
-import kr.co._29cm.repository.ProductRepsitory;
+import kr.co._29cm.repository.InventoryRepsitory;
 import lombok.RequiredArgsConstructor;
 
 import java.util.HashMap;
@@ -12,9 +13,9 @@ import java.util.Scanner;
 public class OrderService {
 
     private final Scanner sc;
-    private final ProductRepsitory productRepsitory = ProductRepsitory.getInstance();
+    private final InventoryRepsitory productRepsitory = InventoryRepsitory.getInstance();
 
-    public Map<Integer, Integer> getOrderCartList() {
+    public Map<Product, Integer> getOrderCartList() {
 
         // Step0. 상품 출력
         showProductsList();
@@ -22,7 +23,8 @@ public class OrderService {
         final String OUT_PRODUCT = "상품 번호 : ";
         final String OUT_COUNT = "수량 : ";
 
-        Map<Integer, Integer> cart = new HashMap<>();
+        // Map<Integer, Integer> cart = new HashMap<>();
+        Map<Product, Integer> productCart = new HashMap<>();
 
         while (true) {
             try {
@@ -32,13 +34,13 @@ public class OrderService {
                     // Step1-2. 결제 (공백 일 경우)
                     // 해당 시점에서 수량 트랜젹션을 확인 하여 (뮤텍스 처럼 동작 하여야함)
                     // 수량을 계산하여 처리
-                    showCartList(cart);
+                    showCartList(productCart);
                     
                     // 이후 결재 엑션
                     
-                    return cart;
+                    return productCart;
                 } else {
-                    Product choice = productRepsitory.findById(itemProduct);
+                    Product choice = productRepsitory.findProductById(itemProduct);
 
                     if(choice == null) {
                         System.out.println("존재 하지 않는 상품 입니다.");
@@ -51,10 +53,10 @@ public class OrderService {
                         if (itemCount == -1) {
                             System.out.println("주문이 취소 되었습니다.");
                         } else {
-                            if (cart.containsKey(itemProduct))
-                                itemCount += cart.get(itemProduct);
+                            if (productCart.containsKey(choice))
+                                itemCount += productCart.get(choice);
 
-                            cart.put(itemProduct, itemCount);
+                            productCart.put(choice, itemCount);
                         }
 
                     }
@@ -73,17 +75,17 @@ public class OrderService {
         return String.valueOf(amount).replaceAll("\\B(?=(\\d{3})+(?!\\d))", ",");
     }
 
-    private void showCartList(Map<Integer, Integer> cart) {
+    private void showCartList(Map<Product, Integer> cart) {
+        System.out.println("-------");
         System.out.println("주문 내역 :");
         System.out.println("-------");
 
         int amount = 0;
 
-        for (Integer selectKey : cart.keySet()) {
-            Product item = productRepsitory.findById(selectKey);
-            System.out.printf("%s - %d 개 %n", item.getName(), cart.get(selectKey));
+        for (Product item : cart.keySet()) {
+            System.out.printf("%s - %d 개 %n", item.getName(), cart.get(item));
 
-            amount += (item.getPrice() * cart.get(selectKey));
+            amount += (item.getPrice() * cart.get(item));
         }
 
         System.out.println("-------");
@@ -101,8 +103,9 @@ public class OrderService {
     private void showProductsList() {
         System.out.println("상품번호    상품명 판매가격    재고수량");
 
-        for (Product item : productRepsitory.findAll()) {
-            System.out.printf("%d   %s  %d  %d %n", item.getId(), item.getName(), item.getPrice(), item.getStock());
+        for (Inventory inven : productRepsitory.findAll()) {
+            Product item = inven.getProduct();
+            System.out.printf("%d   %s  %d  %d %n", item.getId(), item.getName(), item.getPrice(), inven.getStock());
         }
     }
 
