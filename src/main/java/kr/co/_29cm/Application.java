@@ -1,11 +1,52 @@
 package kr.co._29cm;
 
 import kr.co._29cm.controller.OrderController;
+import kr.co._29cm.enums.MainRouterType;
+import kr.co._29cm.service.PayService;
+import kr.co._29cm.service.ProductService;
+
+import java.util.Scanner;
 
 public class Application {
 
     public static void main(String[] args) {
-        OrderController.runOrder();
+
+        ProductService productService = new ProductService();
+        PayService payService = new PayService();
+
+        Scanner sc = new Scanner(System.in);
+
+        productService.initReadProductInfo();
+
+        while (true) {
+
+            MainRouterType optParam = null;
+
+            while (optParam == null) {
+                System.out.print("입력(o[order]: 주문, q[quit]: 종료) : ");
+                optParam = MainRouterType.from(sc.nextLine());
+            }
+
+            switch (optParam) {
+
+                case ORDER -> {
+                    OrderController orderController = new OrderController(sc, productService, payService);
+                    orderController.runOrder();
+                }
+
+                case QUIT -> {
+                    System.out.println("고객님의 주문 감사합니다.");
+
+                    sc.close();
+                    System.exit(0);
+                }
+
+                default -> {
+                }
+            }
+
+            System.out.println();
+        }
     }
 
     // -------------

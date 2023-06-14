@@ -1,18 +1,27 @@
 package kr.co._29cm.model;
 
-import lombok.Builder;
 import lombok.Data;
 
-@Data
-@Builder
-public class Product {
-    private Integer id;
-    private String name;
-    private Integer price;
+import java.util.List;
 
-    public Product(int id, String name, int price) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
+@Data
+public class Product {
+    private ProductInfo productInfo;
+    private Integer stock;
+
+    public Product(List<String> list) {
+        
+        this.productInfo = ProductInfo.builder()
+                .id(Integer.valueOf(list.get(0)))
+                .name(list.get(1))
+                .price(Integer.valueOf(list.get(2)))
+                .build();
+
+        this.stock = Integer.valueOf(list.get(3));
+    }
+
+    public Product(ProductInfo productInfo, Integer stock) {
+        this.productInfo = productInfo;
+        this.stock = stock;
     }
 }
