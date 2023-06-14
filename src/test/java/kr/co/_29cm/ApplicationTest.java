@@ -14,7 +14,6 @@ import java.util.Scanner;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static kr.co._29cm.controller.OrderController.InventoryStorageStack;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ApplicationTest {
@@ -33,7 +32,9 @@ public class ApplicationTest {
 
     @BeforeAll
     public static void initializeOnce() {
-        InventoryStorageStack();
+        ProductService productService = new ProductService();
+
+        productService.initReadProduct();
     }
 
     @Test

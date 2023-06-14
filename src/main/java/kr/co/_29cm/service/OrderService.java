@@ -18,7 +18,6 @@ public class OrderService {
     public Map<Product, Integer> getOrderCartList() {
 
         // Step0. 상품 출력
-        showProductsList();
 
         final String OUT_PRODUCT = "상품 번호 : ";
         final String OUT_COUNT = "수량 : ";
@@ -31,14 +30,8 @@ public class OrderService {
                 Integer itemProduct = parseIntUserScan(OUT_PRODUCT, 10);
 
                 if (itemProduct == -1) {
-                    // Step1-2. 결제 (공백 일 경우)
-                    // 해당 시점에서 수량 트랜젹션을 확인 하여 (뮤텍스 처럼 동작 하여야함)
-                    // 수량을 계산하여 처리
-                    // showCartList(productCart);
-
-                    // 이후 결재 엑션
-
                     return productCart;
+
                 } else {
                     Product choice = inventoryRepsitory.findProductById(itemProduct);
 
@@ -53,11 +46,6 @@ public class OrderService {
                         if (itemCount == -1) {
                             System.out.println("주문이 취소 되었습니다.");
                         } else {
-                            /*
-                            if (productCart.containsKey(choice))
-                                itemCount += productCart.get(choice);
-                             */
-
                             productCart.put(choice, itemCount);
                         }
 
@@ -107,14 +95,5 @@ public class OrderService {
         }
 
         return itemNumberToInt;
-    }
-
-    private void showProductsList() {
-        System.out.println("상품번호    상품명 판매가격    재고수량");
-
-        for (Inventory inven : inventoryRepsitory.findAll()) {
-            Product item = inven.getProduct();
-            System.out.printf("%d   %s  %d  %d %n", item.getId(), item.getName(), item.getPrice(), inven.getStock());
-        }
     }
 }

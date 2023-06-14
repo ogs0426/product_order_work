@@ -20,15 +20,13 @@ public class PayService {
 
         Map<Product, Integer> buyCart = new HashMap<Product, Integer>(cart);
 
-        // Step 0. 존재 여부 확인
-
-        // Step 1. 재고 확인
         for (Product item : cart.keySet()) {
             Integer count = cart.get(item);
             Integer stock = inventoryRepsitory.findById(item.getId()).getStock();
 
-            if(count > stock)
+            if(count > stock) {
                 throw new SoldOutException(item);
+            }
 
             buyCart.put(item, (stock - count));
         }

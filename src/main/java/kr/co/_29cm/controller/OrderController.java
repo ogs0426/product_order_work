@@ -12,16 +12,12 @@ import java.util.Scanner;
 
 public class OrderController {
 
-    public static void InventoryStorageStack() {
-        ProductService productService = new ProductService();
-        productService.initReadProduct();
-    }
-
     public static void runOrder() {
-        InventoryStorageStack();
-
+        ProductService productService = new ProductService();
         PayService payService = PayService.getInstance();
         Scanner sc = new Scanner(System.in);
+
+        productService.initReadProduct();
 
         while (true) {
 
@@ -35,11 +31,10 @@ public class OrderController {
             switch (optParam) {
 
                 case ORDER -> {
-                    // Step 1. 주문
                     OrderService orderService = new OrderService(sc);
-                    Map<Product, Integer> cart = orderService.getOrderCartList();
 
-                    // Step 2. 구매
+                    productService.showProductsList();
+                    Map<Product, Integer> cart = orderService.getOrderCartList();
 
                     try {
                         Boolean checkPay = payService.buyCart(cart);
