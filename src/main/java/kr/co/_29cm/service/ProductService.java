@@ -9,25 +9,25 @@ import java.util.List;
 
 public class ProductService {
 
-    private final ProductRepsitory inventoryRepsitory = ProductRepsitory.getInstance();
+    private final ProductRepsitory productRepsitory = ProductRepsitory.getInstance();
 
     public void initReadProductInfo() {
         List<List<String>> readCSV = CSVReader.readCSV("src/main/resources/product.csv");
 
         for (List<String> proCsv : readCSV) {
-            inventoryRepsitory.insertItem(new Product(proCsv));
+            productRepsitory.insertItem(new Product(proCsv));
         }
     }
 
     public List<Product> getAllList() {
-        return inventoryRepsitory.findAll();
+        return productRepsitory.findAll();
     }
 
     public Product getProduct(Integer id) {
-        return inventoryRepsitory.findById(id);
+        return productRepsitory.findById(id);
     }
 
     public ProductInfo getProductInfo(Integer id) {
-        return inventoryRepsitory.findProductInfoById(id);
+        return productRepsitory.findProductInfoById(id);
     }
 }

@@ -3,6 +3,7 @@ package kr.co._29cm.controller;
 import kr.co._29cm.exception.SoldOutException;
 import kr.co._29cm.model.Product;
 import kr.co._29cm.model.ProductInfo;
+import kr.co._29cm.model.Receipt;
 import kr.co._29cm.service.PayService;
 import kr.co._29cm.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +24,12 @@ public class OrderController {
             showProductInfosList();
             Map<ProductInfo, Integer> cart = getOrderCartList();
 
-            Map<ProductInfo, Integer> receipt = payService.takeOutCart(cart);
+            Receipt receipt = payService.takeOutCart(cart);
 
-            if (receipt != null)
-                showCartList(receipt);
+            if (receipt != null) {
+                payService.payCart(receipt);
+                showReceipt(receipt);
+            }
 
             System.out.println("");
 
@@ -113,28 +116,22 @@ public class OrderController {
         }
     }
 
-    private void showCartList(Map<ProductInfo, Integer> receipt) {
+    private void showReceipt(Receipt receipt) {
         System.out.println("-------");
         System.out.println("주문 내역 :");
 
-        int amount = 0;
-
-        for (ProductInfo item : receipt.keySet()) {
-            System.out.printf("%s - %d 개 %n", item.getName(), receipt.get(item));
-
-            amount += (item.getPrice() * receipt.get(item));
+        for (ProductInfo item : receipt.getCart().keySet()) {
+            System.out.printf("%s - %d 개 %n", item.getName(), receipt.getCart().get(item));
         }
 
         System.out.println("-------");
-        System.out.printf("주문 금액 : %s 원 %n", amountComma(amount));
+        System.out.printf("주문 금액 : %s 원 %n", amountComma(receipt.getAmount()));
 
-        if(0 < amount && amount < 50000) {
-            System.out.printf("배송비 : 2,500 원 %n");
-            amount += 2500;
-        }
+        if(receipt.getDelivery() != 0)
+            System.out.printf("배송비 : %s 원 %n", amountComma(receipt.getDelivery()));
 
         System.out.println("-------");
-        System.out.printf("지불 금액 : %s 원 %n", amountComma(amount));
+        System.out.printf("지불 금액 : %s 원 %n", amountComma(receipt.getAmount() + receipt.getDelivery()));
     }
 
     private String amountComma(int amount) {

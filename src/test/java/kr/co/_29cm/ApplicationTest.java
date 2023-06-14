@@ -22,18 +22,19 @@ public class ApplicationTest {
         System.out.println("-----");
     }
 
-    /*
     @BeforeEach
     public void initialize() {
-        System.out.println("test : BeforeEach");
+        ProductService productService = new ProductService();
+        productService.initReadProductInfo();
     }
-     */
 
+    /*
     @BeforeAll
     public static void initializeOnce() {
         ProductService productService = new ProductService();
         productService.initReadProductInfo();
     }
+     */
 
     @Test
     public void initProductCheck() {
