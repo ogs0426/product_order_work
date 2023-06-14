@@ -39,6 +39,7 @@ public class ApplicationTest {
     public void initProductInfoCheck() {
         System.out.println("initReadProductInfo Check 768848, 744775, 648418, 782858");
         ProductService productService = new ProductService();
+
         ProductInfo item = null;
 
         System.out.println("Check 768848");
@@ -66,6 +67,7 @@ public class ApplicationTest {
     public void initProductCheck() {
         System.out.println("initReadProductInfo Check 768848, 744775, 648418, 782858");
         ProductService productService = new ProductService();
+
         Product item = null;
 
         System.out.println("Check 768848");
