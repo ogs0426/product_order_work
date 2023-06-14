@@ -13,7 +13,6 @@ public class Application {
 
         ProductService productService = new ProductService();
         PayService payService = new PayService();
-
         Scanner sc = new Scanner(System.in);
 
         productService.initReadProductInfo();
@@ -44,8 +43,6 @@ public class Application {
                 default -> {
                 }
             }
-
-            System.out.println();
         }
     }
 

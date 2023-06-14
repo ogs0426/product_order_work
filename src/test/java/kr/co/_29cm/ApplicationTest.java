@@ -36,6 +36,30 @@ public class ApplicationTest {
     }
 
     @Test
+    public void initProductCheck() {
+        System.out.println("initReadProductInfo Check 768848, 744775, 648418, 782858");
+        ProductService productService = new ProductService();
+
+        Product item = null;
+
+        System.out.println("Check 768848");
+        item = productService.getProduct(768848);
+        assertEquals(45, item.getStock());
+
+        System.out.println("Check 744775");
+        item = productService.getProduct(744775);
+        assertEquals(35, item.getStock());
+
+        System.out.println("Check 648418");
+        item = productService.getProduct(648418);
+        assertEquals(5, item.getStock());
+
+        System.out.println("Check 782858");
+        item = productService.getProduct(782858);
+        assertEquals(50, item.getStock());
+    }
+
+    @Test
     public void initProductInfoCheck() {
         System.out.println("initReadProductInfo Check 768848, 744775, 648418, 782858");
         ProductService productService = new ProductService();
@@ -64,31 +88,7 @@ public class ApplicationTest {
     }
 
     @Test
-    public void initProductCheck() {
-        System.out.println("initReadProductInfo Check 768848, 744775, 648418, 782858");
-        ProductService productService = new ProductService();
-
-        Product item = null;
-
-        System.out.println("Check 768848");
-        item = productService.getProduct(768848);
-        assertEquals(45, item.getStock());
-
-        System.out.println("Check 744775");
-        item = productService.getProduct(744775);
-        assertEquals(35, item.getStock());
-
-        System.out.println("Check 648418");
-        item = productService.getProduct(648418);
-        assertEquals(5, item.getStock());
-
-        System.out.println("Check 782858");
-        item = productService.getProduct(782858);
-        assertEquals(50, item.getStock());
-    }
-
-    @Test
-    public void orderServiceCheck() {
+    public void orderController() {
         Scanner sc = new Scanner(System.in);
         // OrderService orderService = new OrderService(sc);
 
@@ -96,7 +96,7 @@ public class ApplicationTest {
     }
 
     @Test
-    public void payServiceTestMultiThread() throws InterruptedException {
+    public void takeOutMultiThread() throws InterruptedException {
         System.out.println("payServiceTestMultiThread : 10");
 
         int numberOfThreads = 10;
@@ -117,7 +117,7 @@ public class ApplicationTest {
             new Thread(() -> {
 
                 try {
-                    if(payService.buyCart(cart) != null) {
+                    if(payService.takeOutCart(cart) != null) {
                         System.out.println("Thread " + Thread.currentThread().getId() + " is Order");
                         sCount.addAndGet(1);
                     }

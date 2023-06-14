@@ -23,7 +23,7 @@ public class OrderController {
             showProductInfosList();
             Map<ProductInfo, Integer> cart = getOrderCartList();
 
-            Map<ProductInfo, Integer> receipt = payService.buyCart(cart);
+            Map<ProductInfo, Integer> receipt = payService.takeOutCart(cart);
 
             if (receipt != null)
                 showCartList(receipt);
@@ -47,30 +47,23 @@ public class OrderController {
             try {
                 Integer itemProductInfo = parseIntUserScan(OUT_PRODUCT, 10);
 
-                if (itemProductInfo == -1) {
+                if (itemProductInfo == -1)
                     return productInfoCart;
 
+                ProductInfo choice = productService.getProductInfo(itemProductInfo);
+
+                if(choice == null) {
+                    System.out.println("존재 하지 않는 상품 입니다.");
                 } else {
-                    ProductInfo choice = productService.getProductInfo(itemProductInfo);
+                    Integer itemCount = parseIntUserScan(OUT_COUNT, 5);
 
-                    if(choice == null) {
-                        System.out.println("존재 하지 않는 상품 입니다.");
+                    if (itemCount == -1) {
+                        System.out.println("주문이 취소 되었습니다.");
                     } else {
-
-                        // Step2. 주문
-                        Integer itemCount = parseIntUserScan(OUT_COUNT, 5);
-
-                        // Step2-1. 카트 주문
-                        if (itemCount == -1) {
-                            System.out.println("주문이 취소 되었습니다.");
-                        } else {
-                            productInfoCart.put(choice, itemCount);
-                        }
-
+                        productInfoCart.put(choice, itemCount);
                     }
 
                 }
-
             } catch (Exception e) {
                 return null;
             }
@@ -123,7 +116,6 @@ public class OrderController {
     private void showCartList(Map<ProductInfo, Integer> receipt) {
         System.out.println("-------");
         System.out.println("주문 내역 :");
-        System.out.println("-------");
 
         int amount = 0;
 
@@ -134,15 +126,15 @@ public class OrderController {
         }
 
         System.out.println("-------");
-        System.out.printf("주문 금액: %s 원 %n", amountComma(amount));
+        System.out.printf("주문 금액 : %s 원 %n", amountComma(amount));
 
-        if(amount < 50000) {
-            System.out.printf("배송비: 2,500 원 %n");
+        if(0 < amount && amount < 50000) {
+            System.out.printf("배송비 : 2,500 원 %n");
             amount += 2500;
         }
 
         System.out.println("-------");
-        System.out.printf("지불 금액: %s 원 %n", amountComma(amount));
+        System.out.printf("지불 금액 : %s 원 %n", amountComma(amount));
     }
 
     private String amountComma(int amount) {
