@@ -16,6 +16,8 @@ public class Application {
         ProductService productService = new ProductService();
         PayService payService = new PayService();
         Scanner sc = new Scanner(System.in);
+
+        // 유저 ID는 랜덤 하게..
         Long userId = Common.genderRandom(50);
 
         productService.initReadProductInfo();
