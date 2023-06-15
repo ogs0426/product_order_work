@@ -4,9 +4,7 @@ import kr.co._29cm.model.Receipt;
 import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 public class ReceiptRepsitory {

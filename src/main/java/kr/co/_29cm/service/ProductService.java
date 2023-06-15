@@ -3,7 +3,6 @@ package kr.co._29cm.service;
 import kr.co._29cm.exception.SoldOutException;
 import kr.co._29cm.model.Product;
 import kr.co._29cm.model.ProductInfo;
-import kr.co._29cm.model.Receipt;
 import kr.co._29cm.repository.ProductRepsitory;
 import kr.co._29cm.util.CSVReader;
 
