@@ -5,6 +5,7 @@ import kr.co._29cm.enums.MainRouterType;
 import kr.co._29cm.model.Receipt;
 import kr.co._29cm.service.PayService;
 import kr.co._29cm.service.ProductService;
+import kr.co._29cm.util.Common;
 
 import java.util.Scanner;
 
@@ -14,8 +15,8 @@ public class Application {
 
         ProductService productService = new ProductService();
         PayService payService = new PayService();
-
         Scanner sc = new Scanner(System.in);
+        Long userId = Common.genderRandom(50);
 
         productService.initReadProductInfo();
 
@@ -32,15 +33,19 @@ public class Application {
 
                 case ORDER -> {
                     OrderController orderController = new OrderController(sc, productService, payService);
-                    orderController.runOrder();
+                    orderController.runOrder(userId);
+                }
+
+                case RECEIPT -> {
+                    System.out.println("구매 확인");
+
+                    for (Receipt receipt : payService.getAllList()) {
+                        System.out.printf("User : %d, Time : %d, Cart : %s, Amount : %d, Delivery : %d \n", receipt.getUserid(), receipt.getTime(), receipt.getCart().toString(), receipt.getAmount(), receipt.getDelivery());
+                    }
                 }
 
                 case QUIT -> {
                     System.out.println("고객님의 주문 감사합니다.");
-
-                    for (Receipt receipt : payService.getAllList()) {
-                        System.out.printf("Cart : %s, Amount : %d, Delivery : %d \n", receipt.getCart().toString(), receipt.getAmount(), receipt.getDelivery());
-                    }
 
                     sc.close();
                     System.exit(0);

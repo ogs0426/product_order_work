@@ -1,7 +1,5 @@
 package kr.co._29cm.repository;
 
-import kr.co._29cm.model.Product;
-import kr.co._29cm.model.ProductInfo;
 import kr.co._29cm.model.Receipt;
 import lombok.RequiredArgsConstructor;
 
@@ -28,7 +26,7 @@ public class ReceiptRepsitory {
         return new ArrayList<Receipt>(receiptStorage.values());
     }
 
-    public Receipt insertItem(Receipt item) {
-        return receiptStorage.put((receiptStorage.size() + 1), item);
+    public void insertItem(Receipt item) {
+        receiptStorage.put((receiptStorage.size() + 1), item);
     }
 }

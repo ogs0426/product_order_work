@@ -3,11 +3,13 @@ package kr.co._29cm;
 import kr.co._29cm.exception.SoldOutException;
 import kr.co._29cm.model.Product;
 import kr.co._29cm.model.ProductInfo;
+import kr.co._29cm.model.Receipt;
 import kr.co._29cm.service.PayService;
 import kr.co._29cm.service.ProductService;
 import org.junit.jupiter.api.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.CountDownLatch;
@@ -108,20 +110,24 @@ public class ApplicationTest {
         CountDownLatch latch = new CountDownLatch(numberOfThreads);
         Map<ProductInfo, Integer> cart = new HashMap<>();
 
-        ProductService productInfoService = new ProductService();
+        ProductService productService = new ProductService();
         PayService payService = new PayService();
 
-        ProductInfo item = productInfoService.getProductInfo(782858);
+        ProductInfo item = productService.getProductInfo(782858);
         cart.put(item, 10);
 
         for (int i = 0; i < numberOfThreads; i++) {
             new Thread(() -> {
 
                 try {
-                    if(payService.takeOutCart(cart) != null) {
+                    if(productService.takeOutCart(cart)) {
                         System.out.println("Thread " + Thread.currentThread().getId() + " is Order");
+                        Receipt receipt = payService.generateReceipt(cart, Thread.currentThread().getId());
+
                         sCount.addAndGet(1);
+                        payService.payCart(receipt);
                     }
+
                 } catch (SoldOutException e) {
                     System.out.println("Thread " + Thread.currentThread().getId() + " is SoldOut");
                     fCount.getAndIncrement();
@@ -133,6 +139,10 @@ public class ApplicationTest {
         }
 
         latch.await();
+
+        for (Receipt receipt : payService.getAllList()) {
+            System.out.printf("User : %d, Time : %d, Cart : %s, Amount : %d, Delivery : %d \n", receipt.getUserid(), receipt.getTime(), receipt.getCart().toString(), receipt.getAmount(), receipt.getDelivery());
+        }
 
         assertEquals(5, sCount.get());
         assertEquals(5, fCount.get());

@@ -19,14 +19,14 @@ public class OrderController {
     private final ProductService productService;
     private final PayService payService;
 
-    public void runOrder() {
+    public void runOrder(Long userId) {
         try {
             showProductInfosList();
             Map<ProductInfo, Integer> cart = getOrderCartList();
 
-            Receipt receipt = payService.takeOutCart(cart);
+            if(productService.takeOutCart(cart)) {
+                Receipt receipt = payService.generateReceipt(cart, userId);
 
-            if (receipt != null) {
                 payService.payCart(receipt);
                 showReceipt(receipt);
             }

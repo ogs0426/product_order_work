@@ -9,6 +9,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public enum MainRouterType {
     ORDER   ("o","productInfo order"),
+    RECEIPT ("r","check receipts"),
     QUIT    ("q","quit p");
 
     private final String code;
