@@ -91,6 +91,35 @@ public class ApplicationTest {
     }
 
     @Test
+    public void updateStock() {
+        System.out.println("update Stock Count 30");
+        int count = 30;
+        ProductService productService = new ProductService();
+
+        Product bItem = productService.getProduct(648418);
+        bItem.setStock(count);
+
+        productService.saveProduct(bItem);
+
+        Product aItem = productService.getProduct(648418);
+
+        assertEquals(count, aItem.getStock());
+    }
+
+    @Test
+    public void newProduct() {
+        System.out.println("new Product");
+        int count = 30;
+        ProductService productService = new ProductService();
+        Product bitem = new Product(ProductInfo.builder().id(999999).name("test").price(100).build(), 0);
+        productService.saveProduct(bitem);
+
+        Product aItem = productService.getProduct(999999);
+
+        assertEquals(bitem, aItem);
+    }
+
+    @Test
     public void orderController() {
         Scanner sc = new Scanner(System.in);
         // OrderService orderService = new OrderService(sc);

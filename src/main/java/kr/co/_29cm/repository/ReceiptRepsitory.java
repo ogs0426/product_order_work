@@ -16,17 +16,13 @@ public class ReceiptRepsitory {
         return receiptRepsitory;
     }
 
-    private final Map<Integer, Receipt> receiptStorage = new HashMap<>();
-
-    public Receipt findById(Integer id) {
-        return receiptStorage.get(id);
-    }
+    private final List<Receipt> receiptStorage = new ArrayList<>();
 
     public List<Receipt> findAll() {
-        return new ArrayList<Receipt>(receiptStorage.values());
+        return receiptStorage;
     }
 
     public void insertItem(Receipt item) {
-        receiptStorage.put((receiptStorage.size() + 1), item);
+        receiptStorage.add(item);
     }
 }
