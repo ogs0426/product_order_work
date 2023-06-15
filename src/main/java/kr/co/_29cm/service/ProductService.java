@@ -13,6 +13,7 @@ public class ProductService {
 
     public void initReadProductInfo() {
         List<List<String>> readCSV = CSVReader.readCSV("src/main/resources/product.csv");
+        readCSV.remove(0);
 
         for (List<String> proCsv : readCSV) {
             productRepsitory.insertItem(new Product(proCsv));

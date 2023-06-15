@@ -2,10 +2,6 @@
 
 주문 구매 프로그램 시퀀스 및 개요
 
-## Enum
-
-메인
-
 ## Controller
 
 Controller (Router) 에서 행위에 따라 Service 가 분기되며 행위에 대한 분기를 담당 합니다.
@@ -37,3 +33,4 @@ Controller (Router) 에서 행위에 따라 Service 가 분기되며 행위에 �
 ## View
 
 -----
+
