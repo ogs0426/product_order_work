@@ -37,7 +37,7 @@ public class Application {
                 }
 
                 case RECEIPT -> {
-                    System.out.println("구매 확인");
+                    System.out.println("");
 
                     for (Receipt receipt : payService.getAllList()) {
                         System.out.printf("User : %d, Time : %d, Cart : %s, Amount : %d, Delivery : %d \n", receipt.getUserid(), receipt.getTime(), receipt.getCart().toString(), receipt.getAmount(), receipt.getDelivery());
